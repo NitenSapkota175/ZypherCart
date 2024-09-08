@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
+from . models import Product,Category
 
-# Create your views here.
+
+def ProductHome(request):
+    
+    return HttpResponse("ProductHome")
