@@ -121,3 +121,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'zyphercart@gmail.com'
 EMAIL_HOST_PASSWORD = 'emugeqssnhakszzk'  # App Password generated from Google
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+LOGIN_URL = '/login/'
