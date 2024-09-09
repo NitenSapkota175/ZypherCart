@@ -1,7 +1,9 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,redirect
 from . forms import SignUpForm
 from .models import Profile,User,Address,Contact
 from . utils import send_email_token
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.forms import AuthenticationForm
 import uuid
 def SignUp(request):
 
@@ -32,3 +34,21 @@ def Verify(request,token):
         return HttpResponse("Your account has been veriied")
     except Exception as e:
         return HttpResponse('Invalid Token')
+    
+
+def Userlogin(request):
+
+        if request.method == 'POST':
+             
+             fm = AuthenticationForm(request=request,data=request.POST)
+             if fm.is_valid():
+                  usrname = fm.cleaned_data.get('username')
+                  passwd = fm.cleaned_data.get('password')
+                  usr = authenticate(username=usrname,password=passwd)
+                  if usr is not None:  
+                        login(request,usr)
+                        return redirect("Home")
+        else:
+             fm = AuthenticationForm()
+        return render(request,'accounts/login.html',{'form' : fm})
+
