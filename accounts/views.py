@@ -7,23 +7,26 @@ from django.contrib.auth.forms import AuthenticationForm
 import uuid
 def SignUp(request):
 
-    if request.method == 'POST':
-        fm = SignUpForm(request.POST)
-        if fm.is_valid():
-            user =  fm.save(commit=False)
-            token = str(uuid.uuid4())
-            user.save()
-            Profile.objects.create(
+    if not request.user.is_authenticated: 
+        if request.method == 'POST':
+            fm = SignUpForm(request.POST)
+            if fm.is_valid():
+                user =  fm.save(commit=False)
+                token = str(uuid.uuid4())
+                user.save()
+                Profile.objects.create(
+                    
+                    user=user , 
+                    email_token = token    
+                )
                 
-                user=user , 
-                email_token = token    
-            )
-            
-            fl  = send_email_token(fm.cleaned_data.get('email'),token)
-            return render(request,'accounts/home.html')
+                fl  = send_email_token(fm.cleaned_data.get('email'),token)
+                return render(request,'accounts/home.html')
+        else:
+            fm = SignUpForm()
+        return render(request,'accounts/signup.html',{'form' : fm})
     else:
-         fm = SignUpForm()
-    return render(request,'accounts/signup.html',{'form' : fm})
+         return redirect('Home')
 
 
 def Verify(request,token):
@@ -36,8 +39,8 @@ def Verify(request,token):
         return HttpResponse('Invalid Token')
     
 
-def Userlogin(request):
-
+def UserLogin(request):
+    if not request.user.is_authenticated: 
         if request.method == 'POST':
              
              fm = AuthenticationForm(request=request,data=request.POST)
@@ -51,4 +54,10 @@ def Userlogin(request):
         else:
              fm = AuthenticationForm()
         return render(request,'accounts/login.html',{'form' : fm})
+    else:
+        return redirect('Home')
 
+def UserLogout(request):
+     
+     logout(request)
+     return redirect('login')
