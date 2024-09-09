@@ -16,3 +16,8 @@ class Contact(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     phone_number = PhoneNumberField(blank=True, null=True)
     secondary_email = models.EmailField(blank=True,null=True)
+
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    email_token = models.CharField(max_length=200)
+    is_verified = models.BooleanField(default=False)
