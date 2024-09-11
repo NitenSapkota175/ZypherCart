@@ -1,26 +1,27 @@
 {%extends 'core/base.html' %}
 
 {% block content %}
-        <form action="" method="POST">
+        <div class="mt-5"> 
+        <form action="" method="POST" class="w-50 mx-auto border p-4 rounded shadow-sm" novalidators>
                 {% csrf_token %}
-
-                <div>
-                    <lable>
-                            username
-                    </lable>
-                        
-                        <input type="text" name="username" >
+                {% if form.non_field_errors %}
+                        {%for error in form.non_field_errors %}
+                                
+                        <div class="alert alert-danger">
+                                        {{error}}
+                        </div>
+                        {%endfor%}
+                {%endif%}
+                {% for fm in form %}
+                {{fm.label_tag}}  {{fm}} 
+                <div class="text-danger">
+                {{fm.errors | striptags}} <br>
                 </div>
+                {%endfor%}
 
-                <div>
-                    <lable>
-                            password
-                    </lable>
-                        
-                        <input type="password" name="password">
-                </div>
-
-                <button type="submit">submit</button>
-
-        </form>
+                <button type="submit" class="btn btn-primary w-100">submit</button>
+                <p>Dont have a account? <a href="{% url 'register' %}"> Creaated account </a></p>
+       </form>
+        
+</div>
 {% endblock content %}
