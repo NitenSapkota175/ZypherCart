@@ -1,21 +1,27 @@
 {%extends 'core/base.html' %}
 
 {% block content %}
-
-            <form action="" method="POST" novalidators>
-                {%if forms.non_field_errors%}
-                        {%for error in forms.non_field_errors %}
-                               <p> {{error}} </p>
-                        {%endfor%}
-
-                {%endif%}
-
-
+        <div class="mt-5"> 
+        <form action="" method="POST" class="w-50 mx-auto border p-4 rounded shadow-sm" novalidators>
                 {% csrf_token %}
-                    {%for fm in form %}
-                          <p>  {{fm.label_tag}} {{fm}} {{fm.errors}} </p>
+                {% if form.non_field_errors %}
+                        {%for error in form.non_field_errors %}
+                                
+                        <div class="alert alert-danger">
+                                        {{error}}
+                        </div>
+                        {%endfor%}
+                {%endif%}
+                {% for fm in form %}
+                {{fm.label_tag}}  {{fm}} 
+                <div class="text-danger">
+                {{fm.errors | striptags}} <br>
+                </div>
+                {%endfor%}
 
-                    {%endfor%}
-                    <input type="submit" name="submit">
-            </form>
+                <button type="submit" class="btn btn-primary w-100">submit</button>
+
+        </form>
+
+</div>
 {% endblock content %}
