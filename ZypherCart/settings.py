@@ -121,12 +121,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'zyphercart@gmail.com'
-EMAIL_HOST_PASSWORD = 'emugeqssnhakszzk'  # App Password generated from Google
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER ='zyphercart@gmail.com'
+EMAIL_HOST_PASSWORD = 'emugeqssnhakszzk'   # Or an app password if you're using two-factor authentication
+DEFAULT_FROM_EMAIL = 'zyphercart@gmail.com'
+
 LOGIN_URL = '/accounts/login/'
-
-
 
 ############################# FILE UPLOADS ##############################################
 
