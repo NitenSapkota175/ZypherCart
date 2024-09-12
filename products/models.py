@@ -12,6 +12,7 @@ class Category(models.Model):
 class Product(models.Model):
     product_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product_name = models.CharField(max_length=255)
+    product_image = models.ImageField(upload_to='products/',null=True,blank=True)
     product_desc = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

@@ -24,8 +24,9 @@ def SignUp(request):
                     user=user , 
                     email_token = token    
                 )
-                send_email_token(email,token)
-                # send_mail('Your account needs to be verified',  'Click on the link to verify your account',  settings.DEFAULT_FROM_EMAIL, recipient_list)
+            
+                # send_email_token(email,token)
+                # # send_mail('Your account needs to be verified',  'Click on the link to verify your account',  settings.DEFAULT_FROM_EMAIL, recipient_list)
                 return render(request,'accounts/login.html')
         else:
             fm = SignUpForm()
