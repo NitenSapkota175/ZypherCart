@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}">
+    <style>
+        .product-image {
+            height: 250px;
+            object-fit: contain; 
+            width: 100%; 
+        }
+    </style>
 </head>
 <body>
       {%include 'core/navbar.html' %}
