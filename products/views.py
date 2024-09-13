@@ -2,6 +2,9 @@ from django.shortcuts import render,HttpResponse
 from . models import Product,Category
 
 
-def ProductHome(request):
+def ProductPage(request,id):
     
-    return HttpResponse("ProductHome")
+    product = Product.objects.get(pk=id)
+    context = {'product' : product}
+    
+    return render(request,'products/product.html',product)

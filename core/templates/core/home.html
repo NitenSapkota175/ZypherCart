@@ -1,23 +1,33 @@
-{%extends 'core/base.html' %}
+{% extends 'core/base.html' %}
 
 {% block content %}
 <div class="container mt-5">
     <div class="row">
         {% for product in products %}
         <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ product.product_image.url }}" class="card-img-top img-fluid product-image" alt="Product Image">
-                <div class="card-body">
-                    <h5 class="card-title">{{ product.product_name }}</h5>
-                    <p class="card-text">{{ product.product_desc }}</p>
-                    <p class="card-text"><strong>Price: {{ product.price }}</strong></p>
-                    <a href="{% url 'AddToCart' product.product_id %}" class="btn btn-primary">Add to Cart</a>
+            <a href="{% url 'ProductPage' product.product_id %}" class="text-decoration-none">
+                <div class="card h-100 shadow-sm rounded-3">
+                    <img src="{{ product.product_image.url }}" class="card-img-top img-fluid product-image rounded-top" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.product_name }}</h5>
+                        <p class="card-text">{{ product.product_desc }}</p>
+
+                        <!-- Price with bottom padding -->
+                        <p class="card-text mb-3"><strong>Price: {{ product.price }}</strong></p>
+                        
+                        <!-- Button group for Add to Cart and Buy Now side by side -->
+                        <div class="d-flex gap-2">
+                            <!-- Add to Cart button in blue -->
+                            <a href="{% url 'AddToCart' product.product_id %}" class="btn btn-primary flex-fill">Add to Cart</a>
+
+                            <!-- Buy Now button in yellow -->
+                            <a href="#" class="btn btn-warning flex-fill">Buy Now</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
 </div>
 {% endblock content %}
-
-
