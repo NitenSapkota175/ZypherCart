@@ -5,8 +5,8 @@ from django.db.models import Sum
 
 def CartPage(request):
         cart_items = CartItems.objects.filter(cart__user = request.user)
-        total_price = cart_items.aaggregate(total=Sum('price'))
-        context = {'cartItems' : cart_items , 'total_price' : total_price}
+        total_price = cart_items.aggregate(total=Sum('price'))
+        context = {'cartItems' : cart_items , 'total_price' : total_price['total']}
         return render(request , 'orders/cart.html',context)
 
 def AddToCart(request,id):
