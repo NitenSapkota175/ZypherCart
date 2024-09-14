@@ -1,0 +1,52 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+         <div class="container mt-5">
+        <div class="row">
+            <!-- Product Image Section -->
+            <div class="col-md-6">
+                {% if product.product_image %}
+                    <img src="{{ product.product_image.url }}" alt="{{ product.product_name }}" class="img-fluid">
+                {% else %}
+                    <img src="https://via.placeholder.com/500" alt="No Image Available" class="img-fluid">
+                {% endif %}
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="col-md-6">
+                <h1>{{ product.product_name }}</h1>
+                <p class="text-muted">{{ product.category.category_name }}</p>
+                <p>{{ product.product_desc }}</p>
+
+                <div class="d-flex align-items-center my-3">
+                    <span class="display-6 text-success">₹{{ product.price }}</span>
+                    <small class="text-decoration-line-through ms-3 text-muted">₹999</small> <!-- Example of original price -->
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button class="btn btn-primary btn-lg me-2">Add to Cart</button>
+                <button class="btn btn-warning btn-lg">Buy Now</button>
+
+                <!-- Offer Section (optional, can be modified based on your requirements) -->
+                <div class="mt-4">
+                    <h5>Available Offers:</h5>
+                    <ul>
+                        <li>Special Price: Get extra 10% off with XYZ Bank.</li>
+                        <li>Cashback: 5% cashback with ABC Credit Card.</li>
+                    </ul>
+                </div>
+
+                <!-- Delivery Information (optional) -->
+                <div class="mt-4">
+                    <label for="pincode" class="form-label">Enter Delivery Pincode</label>
+                    <input type="text" id="pincode" class="form-control w-50" placeholder="Pincode">
+                    <button class="btn btn-outline-secondary mt-2">Check</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- You can add a similar products section or reviews here -->
+    </div>
+
+
+{% endblock content %}

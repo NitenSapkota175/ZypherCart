@@ -5,6 +5,7 @@ from . models import Product,Category
 def ProductPage(request,id):
     
     product = Product.objects.get(pk=id)
-    context = {'product' : product}
+    category = Product.category
+    context = {'product' : product,'category' : category}
     
-    return render(request,'products/product.html',product)
+    return render(request,'products/product.html',context)
