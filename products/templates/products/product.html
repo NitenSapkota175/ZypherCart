@@ -24,7 +24,7 @@
                 </div>
 
                 <!-- Add to Cart Button -->
-                <button class="btn btn-primary btn-lg me-2">Add to Cart</button>
+                <a href="{% url 'AddToCart' product.product_id %}" class="btn btn-primary btn-lg me-2">Add to Cart</a>
                 <button class="btn btn-warning btn-lg">Buy Now</button>
 
                 <!-- Offer Section (optional, can be modified based on your requirements) -->
@@ -33,19 +33,19 @@
                     <ul>
                         <li>Special Price: Get extra 10% off with XYZ Bank.</li>
                         <li>Cashback: 5% cashback with ABC Credit Card.</li>
-                    </ul>
-                </div>
+               </div>
 
-                <!-- Delivery Information (optional) -->
+                   </ul>
+                  <!-- Delivery Information (optional) -->
                 <div class="mt-4">
                     <label for="pincode" class="form-label">Enter Delivery Pincode</label>
-                    <input type="text" id="pincode" class="form-control w-50" placeholder="Pincode">
+<input type="text" id="pincode" class="form-control w-50" placeholder="Pincode">
                     <button class="btn btn-outline-secondary mt-2">Check</button>
                 </div>
             </div>
-        </div>
+        </div>                    
 
-        <!-- You can add a similar products section or reviews here -->
+        <!-- You can add a similar  section or reviews here -->
     </div>
 
 
