@@ -34,3 +34,20 @@ def AddToCart(request,id):
 
     return redirect('Home')
 
+def RemoveItems(request,id):
+        if request.method == "POST":
+           product = Product.objects.get(pk=id)
+    
+           # Get the user's cart by querying the 'user' field directly
+           user_cart = Cart.objects.get(user=request.user)
+                
+            # Filter the CartItems using 'cart' and 'product' ForeignKey fields
+           cart_item = CartItems.objects.get(cart=user_cart, product=product)
+           
+            
+           if cart_item.quantity > 1:
+                    cart_item.quantity -= 1
+                    cart_item.save()
+           else:
+                    cart_item.delete()
+        return redirect('/')
