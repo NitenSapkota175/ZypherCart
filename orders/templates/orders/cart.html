@@ -13,6 +13,10 @@
                     <p class="card-text">{{ cItem.product.product_desc }}</p>
                     <p class="card-text"><strong>qauntity: {{ cItem.quantity }}</strong></p>
                     <p class="card-text"><strong>Price: {{ cItem.price }}</strong></p>
+                    <form action="{% url 'RemoveItems' cItem.product.product_id %}" method="POST">
+                          {% csrf_token %} 
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    </form>
                 </div>
             </div>
         </div>
