@@ -132,3 +132,8 @@ LOGIN_URL = '/accounts/login/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
+
+
+
+RAZOR_PAY_ID = 'rzp_test_HKjcfPGHBVoqN7'
+RAZOR_PAY = 'mQRuSFKrYfypCViCddrMk36T'

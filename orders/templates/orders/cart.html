@@ -13,16 +13,25 @@
                     <p class="card-text">{{ cItem.product.product_desc }}</p>
                     <p class="card-text"><strong>qauntity: {{ cItem.quantity }}</strong></p>
                     <p class="card-text"><strong>Price: {{ cItem.price }}</strong></p>
+                    <div class="d-flex gap-2">
                     <form action="{% url 'RemoveItems' cItem.product.product_id %}" method="POST">
                           {% csrf_token %} 
-                        <button class="btn btn-danger" type="submit">Remove</button>
+                        <button class="btn btn-danger flex-fill" type="submit">Remove</button>
                     </form>
+                  
+                        
+                        <!-- Buy Now button in yellow -->
+                        <a href="#" class="btn btn-warning flex-fill">Buy Now</a>
+                    </div>
+
+
                 </div>
             </div>
         </div>
         {% endfor %}
 
         <h3>Total Cart price : {{total_price | floatformat:2 }}</h3>
+        <a href="#" class="btn btn-success flex-fill">Place Order</a>
     </div>
 </div>
 
