@@ -51,3 +51,6 @@ def RemoveItems(request,id):
            else:
                     cart_item.delete()
         return redirect('/')
+
+def Checkout(reques):
+      pass
