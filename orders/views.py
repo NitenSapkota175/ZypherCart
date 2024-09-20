@@ -1,6 +1,8 @@
 from django.shortcuts import render,HttpResponseRedirect,redirect
 from . models import Cart,CartItems
 from products.models import Product
+from accounts.models import Address,Contact
+from accounts.forms import AddressForm,ContactForm
 from django.db.models import Sum
 
 def CartPage(request):
@@ -36,12 +38,9 @@ def AddToCart(request,id):
 
 def RemoveItems(request,id):
         if request.method == "POST":
+           
            product = Product.objects.get(pk=id)
-    
-           # Get the user's cart by querying the 'user' field directly
            user_cart = Cart.objects.get(user=request.user)
-                
-            # Filter the CartItems using 'cart' and 'product' ForeignKey fields
            cart_item = CartItems.objects.get(cart=user_cart, product=product)
            
             
@@ -52,5 +51,31 @@ def RemoveItems(request,id):
                     cart_item.delete()
         return redirect('/')
 
-def Checkout(reques):
-      pass
+def Checkout(request,id):
+
+      if request.method == 'POST':
+            
+            user = request.user
+            address_is_exists = Address.objects.filter(user=user).exists()
+            contact_is_exists = Contact.objects.filter(user=user).exists()
+          
+            if address_is_exists != True:
+                    
+                    address =   AddressForm()
+                    return render(request,'accounts/address.html',{'forms' : address})
+                
+            if contact_is_exists != True:
+                  
+                    contact =   ContactForm()
+                    return render(request,'accounts/contact.html',{'forms' : contact})
+
+
+      address = Address.objects.get(user=request.user)
+      contact = Contact.objects.get(user=request.user)
+      print(address.city)
+
+      
+      context = {'address' : address , 'contact' : contact }
+
+
+      return render(request,'orders/checkout.html',context)

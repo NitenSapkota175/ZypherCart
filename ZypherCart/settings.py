@@ -135,5 +135,5 @@ MEDIA_URL = '/media/'
 
 
 
-RAZOR_PAY_ID = 'rzp_test_HKjcfPGHBVoqN7'
-RAZOR_PAY = 'mQRuSFKrYfypCViCddrMk36T'
+RAZORPAY_KEY_ID = 'rzp_test_HKjcfPGHBVoqN7'
+RAZORPAY_KEY_SECRET = 'mQRuSFKrYfypCViCddrMk36T'
