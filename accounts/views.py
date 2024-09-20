@@ -1,5 +1,4 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .forms import SignUpForm
 from .models import Profile, User, Address, Contact
 from .utils import send_email_token
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from . forms import AddressForm,ContactForm,SignUpForm
 import logging
 import uuid
 
@@ -89,3 +89,30 @@ def UserLogout(request):
 
     logout(request)
     return redirect("login")
+
+
+
+def AddAdress(request):
+    
+    if request.method == 'POST':
+        fm = AddressForm(request.POST)
+        if fm.is_valid():
+           address =  fm.save(commit=False)
+           address.user = request.user
+           address.save()
+    return redirect('/')
+
+
+
+def Contact(request):
+    
+    if request.method == 'POST':
+        fm = ContactForm(request.POST)
+        if fm.is_valid():
+           contact =  fm.save(commit=False)
+           contact.user = request.user
+           contact.save()
+           print("HELLO")
+        else:
+            print("Hello world")
+    return redirect('/')

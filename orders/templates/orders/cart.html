@@ -19,9 +19,13 @@
                         <button class="btn btn-danger flex-fill" type="submit">Remove</button>
                     </form>
                   
-                        
+                        <form action="{% url 'Checkout' cItem.product.product_id %}" method="POST">
+                            {% csrf_token %} 
+                            <button  type = "submit" class="btn btn-warning flex-fill">Buy Now</button>
+
+                        </form>
                         <!-- Buy Now button in yellow -->
-                        <a href="#" class="btn btn-warning flex-fill">Buy Now</a>
+                     
                     </div>
 
 

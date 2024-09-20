@@ -14,7 +14,7 @@ class Address(models.Model):
 class Contact(models.Model):
     
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    phone_number = PhoneNumberField(blank=True, null=True)
+    phone_number = models.CharField(max_length=10 ,unique=True,blank=True, null=True)
     secondary_email = models.EmailField(blank=True,null=True)
 
 class Profile(models.Model):
