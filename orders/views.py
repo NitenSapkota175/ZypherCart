@@ -1,10 +1,16 @@
-from django.shortcuts import render,HttpResponseRedirect,redirect
+from django.shortcuts import render,HttpResponseRedirect,redirect,get_object_or_404
 from . models import Cart,CartItems
 from products.models import Product
 from accounts.models import Address,Contact
 from accounts.forms import AddressForm,ContactForm
 from django.db.models import Sum
-
+from . models import Order,OrderItem
+from core.razor_clients import client
+from django.conf import settings
+from decimal import Decimal
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseBadRequest
+import logging
 def CartPage(request):
         cart_items = CartItems.objects.filter(cart__user = request.user)
         total_price = cart_items.aggregate(total=Sum('price'))
@@ -51,31 +57,107 @@ def RemoveItems(request,id):
                     cart_item.delete()
         return redirect('/')
 
-def Checkout(request,id):
 
-      if request.method == 'POST':
-            
-            user = request.user
-            address_is_exists = Address.objects.filter(user=user).exists()
-            contact_is_exists = Contact.objects.filter(user=user).exists()
-          
-            if address_is_exists != True:
-                    
-                    address =   AddressForm()
-                    return render(request,'accounts/address.html',{'forms' : address})
-                
-            if contact_is_exists != True:
-                  
-                    contact =   ContactForm()
-                    return render(request,'accounts/contact.html',{'forms' : contact})
+def Checkout(request, id):
+    user = request.user
+
+    address_is_exists = Address.objects.filter(user=user).exists()
+    contact_is_exists = Contact.objects.filter(user=user).exists()
+
+    if not address_is_exists:
+        address_form = AddressForm()
+        return render(request, 'accounts/address.html', {'forms': address_form})
+
+    if not contact_is_exists:
+        contact_form = ContactForm()
+        return render(request, 'accounts/contact.html', {'forms': contact_form})
+
+    address = Address.objects.get(user=user)
+    contact = Contact.objects.get(user=user)
+    product = get_object_or_404(Product, pk=id)
+
+    # Convert amount to paise for Razorpay
+    amount_in_paise = int(product.price * Decimal(100))
+
+    if request.method == 'POST':
+        payment_method = request.POST.get('payment_method')
+
+        # Create an order
+        order = Order.objects.create(
+            user=user,
+            amount=product.price,  # Store price in INR
+            payment_method=payment_method,
+            payment_status='Pending',
+            is_paid=False
+        )
+
+        if payment_method in ['ONLINE', 'UPI']:
+            # Create Razorpay order
+            razorpay_order = client.order.create({
+                "amount": amount_in_paise,  # Send amount in paise
+                "currency": "INR",
+                "payment_capture": "1"
+            })
+            order.order_id = razorpay_order['id']  # Save Razorpay order ID
+            order.save()
+
+            context = {
+                'razorpay_key': settings.RAZORPAY_KEY_ID,
+                'razorpay_order_id': razorpay_order['id'],
+                'amount': amount_in_paise,  # Pass amount in paise for Razorpay
+                'amount_in_rupees': product.price,  # Pass amount in rupees for display
+                'order': order,
+                'product': product,
+                'address': address,
+                'contact': contact
+            }
+            return render(request, 'orders/payment.html', context)
+
+        elif payment_method == 'COD':
+            order.payment_status = 'Pending'
+            order.save()
+            return redirect('order_success', order_id=order.id)
+
+    context = {
+        'address': address,
+        'contact': contact,
+        'product': product
+    }
+    return render(request, 'orders/checkout.html', context)
 
 
-      address = Address.objects.get(user=request.user)
-      contact = Contact.objects.get(user=request.user)
-      print(address.city)
+logger = logging.getLogger(__name__)
 
-      
-      context = {'address' : address , 'contact' : contact }
+@csrf_exempt
+def PaymentSuccessView(request):
+    if request.method == "POST":
+        try:
+            razorpay_payment_id = request.POST.get('razorpay_payment_id')
+            razorpay_order_id = request.POST.get('razorpay_order_id')
+            razorpay_signature = request.POST.get('razorpay_signature')
 
+            # Verify the payment signature
+            params_dict = {
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': razorpay_payment_id,
+                'razorpay_signature': razorpay_signature
+            }
 
-      return render(request,'orders/checkout.html',context)
+            client.utility.verify_payment_signature(params_dict)
+
+            # If successful, mark the order as paid
+            order = Order.objects.get(order_id=razorpay_order_id)
+            order.payment_id = razorpay_payment_id
+            order.payment_status = 'Completed'
+            order.is_paid = True
+            order.razorpay_signature = razorpay_signature
+            order.save()
+
+            return render(request, 'orders/success.html', {'order': order})
+        except Exception as e:
+            logger.info(f"Payment ID: {razorpay_payment_id}, Order ID: {razorpay_order_id}, Signature: {razorpay_signature}")
+
+            logger.error(f"Payment verification failed: {e}")
+            return HttpResponseBadRequest("Payment verification failed.")
+
+    return HttpResponseBadRequest("Invalid request method.")

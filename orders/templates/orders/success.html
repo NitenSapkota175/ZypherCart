@@ -1,0 +1,27 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <!-- Success Message Card -->
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="text-success mb-4">Payment Successful!</h2>
+                    <p class="lead">Thank you for your purchase. Your order has been placed successfully.</p>
+                    <p><strong>Order ID:</strong> {{ order.id }}</p>
+                    <p><strong>Amount Paid:</strong> ₹{{ order.amount|floatformat:2 }}</p>
+                    <p><strong>Payment Method:</strong> {{ order.ayment_method_display }}</p>
+                    
+                    <!-- Additional instructions or links -->
+                    <p class="mt-4">You will receive a confirmation email shortly with your order details.</p>
+
+                    <!-- Back to Home or Orders Button -->
+                    <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Home</a>
+                    {% comment %} <a href="{% url 'order_history' %}" class="btn btn-secondary mt-3">View My Orders</a> {% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

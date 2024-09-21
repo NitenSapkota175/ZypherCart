@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'products',
-    'orders'
+    'orders',
+    'razorpay'
     
 ]
 
