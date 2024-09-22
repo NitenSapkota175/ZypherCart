@@ -76,13 +76,11 @@ def Checkout(request, id):
     contact = Contact.objects.get(user=user)
     product = get_object_or_404(Product, pk=id)
 
-    # Convert amount to paise for Razorpay
     amount_in_paise = int(product.price * Decimal(100))
 
     if request.method == 'POST':
         payment_method = request.POST.get('payment_method')
 
-        # Create an order
         order = Order.objects.create(
             user=user,
             amount=product.price,  # Store price in INR
@@ -92,14 +90,16 @@ def Checkout(request, id):
         )
 
         if payment_method in ['ONLINE', 'UPI']:
-            # Create Razorpay order
+           
             razorpay_order = client.order.create({
-                "amount": amount_in_paise,  # Send amount in paise
+                "amount": amount_in_paise,  
                 "currency": "INR",
                 "payment_capture": "1"
             })
-            order.order_id = razorpay_order['id']  # Save Razorpay order ID
+            order.order_id = razorpay_order['id']  
             order.save()
+
+            OrderItem.objects.create(order=order,product=product,quantity=1,price= product.price)
 
             context = {
                 'razorpay_key': settings.RAZORPAY_KEY_ID,
@@ -142,7 +142,7 @@ def PaymentSuccessView(request):
                 'razorpay_payment_id': razorpay_payment_id,
                 'razorpay_signature': razorpay_signature
             }
-
+            
             client.utility.verify_payment_signature(params_dict)
 
             # If successful, mark the order as paid

@@ -18,15 +18,15 @@
                         <script
                             src="https://checkout.razorpay.com/v1/checkout.js"
                             data-key="{{ razorpay_key }}"
-                            data-amount="{{ amount }}" <!-- Paise for Razorpay -->
+                            data-amount="{{ amount }}" 
                             data-order_id="{{ razorpay_order_id }}"
                             data-buttontext="Pay with Razorpay"
                             data-name="Your Shop Name"
                             data-description="Complete your purchase"
-                            data-image="/static/your_logo.png" <!-- Your logo -->
+                            data-image="/static/your_logo.png" <
                             data-prefill.name="{{ order.user.username }}"
                             data-prefill.email="{{ order.user.email }}"
-                            data-prefill.contact="{{ contact.phone }}"
+                            data-prefill.contact="{{ contact.phone_number }}"
                             data-theme.color="#007bff"> <!-- Razorpay button color -->
                         </script>
                         <input type="hidden" value="Hidden Element" name="hidden">
