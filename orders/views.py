@@ -161,3 +161,10 @@ def PaymentSuccessView(request):
             return HttpResponseBadRequest("Payment verification failed.")
 
     return HttpResponseBadRequest("Invalid request method.")
+
+
+def OrdersDetails(request):
+    orders = Order.objects.filter(user=request.user)  
+    order_items = OrderItem.objects.filter(order__in=orders) 
+    context = {"order_items": order_items}
+    return render(request, 'orders/orders_details.html', context)

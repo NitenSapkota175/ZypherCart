@@ -1,0 +1,28 @@
+{% extends 'core/base.html'%}
+
+{%block content%}
+<div class="container mt-5">
+    {% for order_item in order_items %}
+    <div class="row">
+      
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ order_item.product.product_image.url }}" class="card-img-top img-fluid product-image" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ order_item.product.product_name }}</h5>
+                    <p class="card-text"><strong>Order_ID : {{ order_item.order.order_id }}</strong></p>
+                    <p class="card-text">{{ order_item.product.product_desc }}</p>
+                    <p class="card-text"><strong>qauntity: {{ order_item.quantity }}</strong></p>
+                    <p class="card-text"><strong>Price: {{ order_item.product.price }}</strong></p>
+            
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+
+    </div>
+</div>
+
+{%endblock content%}
