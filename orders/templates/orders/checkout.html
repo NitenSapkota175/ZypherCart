@@ -33,12 +33,12 @@
                 <h5>3. Order Summary</h5>
                 <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/50" alt="Product" class="img-thumbnail me-3">
+                        <img src="{{product.product_image.url}}" alt="Product" class="img-thumbnail me-3">
                         <div>
-                            <p class="mb-0">Safari Magnum Zeno 75 Check-in Suitcase 4 Wheels</p>
-                            <small class="text-muted">Seller: HSAtlastradeFashion</small>
-                            <p class="text-success">77% Off - ₹2,749</p>
-                            <button class="btn btn-outline-danger btn-sm">Remove</button>
+                            <p class="mb-0">{{product.product_name}}</p>
+                            <small class="text-muted">{{product.product_desc}}</small>
+                            {% comment %} <p class="text-success">77% Off - ₹2,749</p> {% endcomment %}
+                            {% comment %} <button class="btn btn-outline-danger btn-sm">Remove</button> {% endcomment %}
                         </div>
                     </div>
                     <div>
@@ -55,9 +55,9 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Price (1 item)</span>
-                        <span>₹2,749</span>
+                        <span>₹{{product.price}}</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between">
+                    {% comment %} <li class="list-group-item d-flex justify-content-between">
                         <span>Delivery Charges</span>
                         <span>₹40 <span class="text-success">(Free)</span></span>
                     </li>
@@ -68,10 +68,10 @@
                     <li class="list-group-item d-flex justify-content-between fw-bold">
                         <span>Total Payable</span>
                         <span>₹2,752</span>
-                    </li>
-                    <li class="list-group-item text-success fw-bold">
-                        Your Total Savings on this order ₹9,258
-                    </li>
+                    </li> {% endcomment %}
+                    {% comment %} <li class="list-group-item text-success fw-bold">
+                        Your Total Savings on this order 
+                    </li> {% endcomment %}
                 </ul>
             </div>
 
