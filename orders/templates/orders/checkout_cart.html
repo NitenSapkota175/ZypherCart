@@ -102,7 +102,7 @@
                 <h5>4. Payment Options</h5>
                     <!-- checkout.html -->
   <!-- checkout.html -->
-<form action="{% url 'DirectCheckout' product.product_id %}" method="POST" class="mt-4 p-3 border rounded">
+<form action="{% url 'CartCheckout' %}" method="POST" class="mt-4 p-3 border rounded">
     {% csrf_token %}
     <h3 class="mb-3">Select Payment Method</h3>
 
