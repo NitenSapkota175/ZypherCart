@@ -32,25 +32,31 @@
             <div class="mb-3">
                 <h5>3. Order Summary</h5>
                 {% if cart_items %}
-                <div class="d-flex justify-content-between">
-                    {% for product in cart_items %}
-                    <div class="d-flex align-items-center">
-                        <img src="{{product.product_image.url}}" alt="Product" class="img-thumbnail me-3">
-                        <div>
-                            <p class="mb-0">{{product.product_name}}</p>
-                            <small class="text-muted">{{product.product_desc}}</small>
-                            {% comment %} <p class="text-success">77% Off - ₹2,749</p> {% endcomment %}
-                            {% comment %} <button class="btn btn-outline-danger btn-sm">Remove</button> {% endcomment %}
+                <div class="d-flex flex-column">
+                    {% for cart_item in cart_items %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <!-- Display the product image -->
+                            <img src="{{ cart_item.product.product_image.url }}" alt="Product" class="img-thumbnail me-3" style="width: 100px; height: 100px;">
+                            
+                            <!-- Display product name, description, and price -->
+                            <div>
+                                <p class="mb-0 fw-bold">{{ cart_item.product.product_name }}</p>
+                                <small class="text-muted">{{ cart_item.product.product_desc }}</small><br>
+                                <small>Quantity: {{ cart_item.quantity }}</small><br>
+                                <small>Price: ₹{{ cart_item.price }}</small>
+                            </div>
                         </div>
-
+                        {% comment %} <div>
+                            <span class="badge bg-success">Assured</span><br>
+                            <small>Delivery by Wed Sep 25<br>₹40 Free</small>
+                        </div> {% endcomment %}
                     </div>
-                    {%endfor%}
-                    <div>
-                        <span class="badge bg-success">Assured</span><br>
-                        <small>Delivery by Wed Sep 25<br>₹40 Free</small>
-                    </div>
+                    {% endfor %}
                 </div>
-                {%else %}
+                {% else %}
+             
+            
                 <div class="d-flex justify-content-between">
                     <div class="d-flex align-items-center">
                         <img src="{{product.product_image.url}}" alt="Product" class="img-thumbnail me-3">
@@ -102,7 +108,7 @@
                 <h5>4. Payment Options</h5>
                     <!-- checkout.html -->
   <!-- checkout.html -->
-<form action="{% url 'DirectCheckout' product.product_id %}" method="POST" class="mt-4 p-3 border rounded">
+<form action="{% url 'CartCheckout' %}" method="POST" class="mt-4 p-3 border rounded">
     {% csrf_token %}
     <h3 class="mb-3">Select Payment Method</h3>
 
