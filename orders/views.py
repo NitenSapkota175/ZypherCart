@@ -204,7 +204,7 @@ def CartCheckout(request):
             return redirect("Orders")
 
     context = {"address": address, "contact": contact, "cart_items": cart_items}
-    return render(request, "orders/checkout_cart.html", context)
+    return render(request, "orders/checkout.html", context)
 
 
 @csrf_exempt
