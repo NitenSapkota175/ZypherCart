@@ -14,7 +14,10 @@
                     <p class="card-text">{{ order_item.product.product_desc }}</p>
                     <p class="card-text"><strong>qauntity: {{ order_item.quantity }}</strong></p>
                     <p class="card-text"><strong>Price: {{ order_item.product.price }}</strong></p>
-            
+                    <div>
+                    
+                        <small>Delivery by {{order_item.delivery_date}}</small>
+                    </div>
 
                 </div>
             </div>
