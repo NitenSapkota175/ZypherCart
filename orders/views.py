@@ -125,7 +125,11 @@ def DirectCheckout(request, id):
             )
             return redirect("Orders")
 
-    context = {"address": address, "contact": contact, "product": product}
+    context = {
+        "address": address,
+        "contact": contact,
+        "product": product,
+    }
     return render(request, "orders/checkout.html", context)
 
 
